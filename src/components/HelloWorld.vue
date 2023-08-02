@@ -1,8 +1,7 @@
 <template>
   <v-container class="fill-height">
     <v-responsive class="align-center text-center fill-height">
-      <div class="text-body-2 font-weight-light mb-n1">Welcome to</div>
-      <h1 class="text-h2 font-weight-bold">9Hole</h1>
+      <v-img height='300px' src="../assets/9holelogo.png"></v-img>
 
       <div class="py-4" />
 
@@ -27,7 +26,6 @@
             min-width="228"
             rel="noopener noreferrer"
             size="x-large"
-            target="_blank"
             variant="flat"
           >
             Play
