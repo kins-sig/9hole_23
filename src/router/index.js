@@ -15,21 +15,10 @@ const routes = [
         component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
       },
       {
-        path: '/welcome',
-        name: 'Welcome',
-        component: () => import('@/views/Welcome.vue'),
-      },
-      {
         path: '/overview/:players/:holes',
         name: 'Overview',
         component: () => import('@/views/Overview.vue'),
-      },
-      {
-        path: '/edit',
-        name: 'Edit',
-        component: () => import('@/views/EditView.vue'),
-        props: { clickedHole: 7}
-      },
+      }
     ],
   },
 ]
