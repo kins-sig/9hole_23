@@ -78,6 +78,7 @@
 				v-for="player in playersAndScores" :key="player"
 				v-bind:label="player.name"
 				variant="outlined"
+				type="number"
 				v-model="player.scores[selectedHole]">
 			</v-text-field>
 		</v-card-text>

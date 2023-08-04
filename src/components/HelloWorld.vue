@@ -7,11 +7,13 @@
 
       <v-text-field
         label="How many people are playing?"
+        type="number"
         variant="outlined"
         v-model="numOfPlayers">
       </v-text-field>
       <v-text-field
         label="How many rounds are you playing?"
+        type="number"
         variant="outlined"
         v-model="numOfHoles">
       </v-text-field>
