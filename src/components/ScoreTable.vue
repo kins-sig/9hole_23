@@ -40,9 +40,12 @@
 	<!-- Add Menu -->
 	<v-btn variant="flat"
 		class="position-absolute"
+		width="40"
+		height="40"
+		rounded="xl"
 		style="bottom: 5px; right:5px"
-		color="secondary" 
-		icon="mdi-plus">
+		color="secondary">
+		<v-icon icon="mdi-plus"></v-icon>
 		<v-menu activator="parent" location="top">
 			<v-list>
 				<v-list-item @click="showAddPlayersModal = true">
@@ -140,11 +143,7 @@
         </v-card-actions>
       </v-card>
 	</v-dialog>
-
-
 </template>
-
-
 
 <script setup>
 	import {useRoute} from "vue-router";
