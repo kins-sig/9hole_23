@@ -20,7 +20,6 @@
 				@click="handleRowClick(hole)">
 				<td>
 					{{ hole }} 
-					<!-- <v-icon icon="mdi-pencil" size="x-small" class="pl-3"></v-icon> -->
 				</td>
 				<td v-for="player in playersAndScores"
 					:key="player">{{ player.scores[hole] }}</td>
@@ -53,6 +52,9 @@
 				</v-list-item>
 				<v-list-item @click="showAddHolesModal = true">
 					<v-list-item-title>Add holes</v-list-item-title>
+				</v-list-item>
+				<v-list-item @click="resetScores">
+					<v-list-item-title>Reset Scores</v-list-item-title>
 				</v-list-item>
 			</v-list>
 		</v-menu>
@@ -221,19 +223,21 @@
 	}
 
 	function addHoles(holesToAdd) {
+		numberOfHoles += holesToAdd; 
 		showAddHolesModal.value = false; 
-		console.log(playersAndScores); 
 		const scoresToAdd = []; 
 		for (let i=0; i < parseInt(holesToAdd); i++) {
 			scoresToAdd.push(0); 
 		}
 		playersAndScores.value.forEach((player) => {
-			console.log(player.scores); 
-			console.log(scoresToAdd); 
 			player.scores = player.scores.concat(scoresToAdd); 
+		}); 		
+	}
+
+	function resetScores() {
+		playersAndScores.value.forEach((player) => {
+			player.scores = generateNewScores(); 
 		}); 
-		console.log(playersAndScores); 
-		
 	}
 
 </script>
