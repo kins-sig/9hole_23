@@ -61,7 +61,7 @@
 	</v-btn>
 
 	<!-- Edit Hole Modal -->
-	<v-dialog v-model="showEditHoleModal" width="auto">
+	<v-dialog v-model="showEditHoleModal" width="auto" persistent>
 		<v-card>
         <v-card-text class="mx-auto">
 			<v-btn  @click="previousHole"
