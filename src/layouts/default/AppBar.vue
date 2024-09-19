@@ -1,6 +1,6 @@
 <template>
   <v-app-bar flat>
-    <v-btn :to="{path: '/'}" variant="flat" color="primary" rounded="xl"> 
+    <v-btn variant="flat" color="primary" rounded="xl" @click="goBack"> 
       <v-icon start icon="mdi-arrow-left"></v-icon>
     </v-btn>
 
@@ -9,4 +9,10 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
+const router = useRouter();
+
+const goBack = () => {
+  router.go(-1);
+};
 </script>
