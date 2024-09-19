@@ -41,12 +41,30 @@
 <script setup>
   import router from '@/router';
   import { ref } from 'vue';
+  import { addDoc, collection, Timestamp } from 'firebase/firestore'; 
+  import { firestore } from '@/firebaseInit';
+
+  const props = defineProps({
+    user: String
+  })
 
   let numOfPlayers = ref('');
   let numOfHoles = ref('');
+  let gameDocumentReference = undefined; 
 
+  async function handleButtonClick() {
+    if (props.user) {
+      if (gameDocumentReference === undefined) {
+        gameDocumentReference = await addDoc(collection(firestore, "games"), {
+          gameData: {},
+          created: Timestamp.now(), 
+          userId: props.user
+        });
+      }
+      router.replace({name: 'Overview', params: {players: numOfPlayers.value, holes: numOfHoles.value, game: gameDocumentReference.id}});
+    } else {
+      router.replace({name: 'Overview', params: {players: numOfPlayers.value, holes: numOfHoles.value}});
+    }
 
-  function handleButtonClick(){
-    router.push({name: 'Overview', params: {players: numOfPlayers.value, holes: numOfHoles.value}});
   }
 </script>

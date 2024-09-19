@@ -85,7 +85,7 @@
 			</v-text-field>
 		</v-card-text>
         <v-card-actions>
-          <v-btn color="primary" variant="flat" block @click="showEditHoleModal = false">Done</v-btn>
+          <v-btn color="primary" variant="flat" block @click="handleEditHoleDoneClick">Done</v-btn>
         </v-card-actions>
       </v-card>
 	</v-dialog>
@@ -149,15 +149,23 @@
 </template>
 
 <script setup>
-	import {useRoute} from "vue-router";
-	import { ref } from "vue"
-	import DefaultBar from '@/layouts/default/AppBar.vue'
+	import { useRoute } from "vue-router";
+	import { ref, onMounted } from "vue";
+	import DefaultBar from '@/layouts/default/AppBar.vue';
+	import { firestore } from "@/firebaseInit";
+	import { updateDoc, doc, Timestamp, getDoc } from "firebase/firestore"
 
+	const props = defineProps({
+		holes: String, 
+		players: String, 
+		game: String
+	})
 
-	const route = useRoute();
-	let numberOfHoles = parseInt(route.params.holes);
-	let numberOfPlayers = parseInt(route.params.players);
-	let playersAndScores = ref([]);
+	let gameRef = useRoute().params.game ? doc(firestore, 'games', props.game) : null;
+
+	let numberOfHoles = parseInt(props.holes) || 1;
+	let numberOfPlayers = parseInt(props.players) || 1;
+	let playersAndScores = ref([]); 
 
 	let showEditPlayerModal = ref(false);
 
@@ -170,6 +178,17 @@
 	for (let i = 1; i < numberOfPlayers+1; i++) {
 		playersAndScores.value.push({name: 'Player' + i, scores: generateNewScores()});
 	}
+
+
+	onMounted(async () => {
+		if (gameRef) {
+			const gameSnapshot = await getDoc(gameRef); 
+			const gameSnapshotData = gameSnapshot.data().gameData; 
+			if (!(Object.keys(gameSnapshotData).length === 0 && gameSnapshotData.constructor === Object)) {
+				playersAndScores.value = gameSnapshotData;
+			}
+		} 
+	});
 
 	function generateNewScores() {
 		let scores = [];
@@ -238,6 +257,16 @@
 		playersAndScores.value.forEach((player) => {
 			player.scores = generateNewScores(); 
 		}); 
+	}
+
+	async function handleEditHoleDoneClick() {
+		showEditHoleModal.value = false;
+		if (gameRef) {
+			await updateDoc(gameRef, {
+				gameData: playersAndScores.value,
+				updated: Timestamp.now()
+			}); 
+		};
 	}
 
 </script>

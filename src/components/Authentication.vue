@@ -48,7 +48,7 @@
 				
 				<div class="py-2" />
 
-				<v-btn variant="plain" @click="navigateToSetup">
+				<v-btn variant="plain" @click="navigateToNewGame">
 					Continue as Guest
 				</v-btn>
 			</v-col>
@@ -79,8 +79,7 @@
 		const auth = getAuth(firebaseApp);
 		createUserWithEmailAndPassword(auth, email.value, password.value)
 			.then((userCredential) => {
-				const user = userCredential.user;
-				navigateToSetup(); 
+				navigateToNewGame(userCredential.user); 
 			})
 			.catch(error => {
 				handleAuthError(error.message); 
@@ -93,8 +92,7 @@
 		const auth = getAuth(firebaseApp);
 		signInWithEmailAndPassword(auth, email.value, password.value)
 			.then((userCredential) => {   
-				const user = userCredential.user;
-				navigateToSetup(); 
+				navigateToExistingGames(userCredential.user); 
 			})
 			.catch(error => {
 				handleAuthError(error.message); 
@@ -102,8 +100,12 @@
 			});
 	}
 
-	function navigateToSetup() {
-		router.push('/setup');
+	function navigateToExistingGames(user) {
+		router.push({name: 'PreviousGames', params: {user: user.uid}});
+	}
+
+	function navigateToNewGame(user) {
+		router.push({name: 'NewGame', params: {user: user.uid}});
 	}
 
 	function handleAuthError(error) {
